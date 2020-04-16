@@ -5,10 +5,9 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 
-st.title('Aula do dia 09/04')
+st.title('Aula do dia 16/04')
 
-
-image = Image.open('monte_fuji.jpg')
+image = Image.open('peppers.png')
 
 imagem_color_arr = np.array(image)
 
@@ -16,29 +15,42 @@ img_gray = np.mean(imagem_color_arr, axis=2)
 
 st.text(img_gray.shape)
 
-limiar = st.slider('Limiar?', 0, 255, 25)
+# limiar = st.slider('Limiar?', 0, 255, 25)
 
-st.text(limiar)
+# st.text(limiar)
 
 img_gray = np.mean(imagem_color_arr, axis=2)
 
+num_color = st.selectbox("Quantas cores?", \
+    (2, 4, 8, 16, 32, 64, 128))
+
+# st.text(num_color)
 # img_gray[img_gray != limiar] = 255
-img_gray[0 < img_gray and img_gray < 64]  = 0
-img_gray[64 < img_gray and img_gray < 128]  = 64
-img_gray[128 < img_gray and img_gray < 192]  = 128
-img_gray[img_gray > 192]  = 192
-# img_gray[img_gray < limiar] = 191
-# img_gray[img_gray > limiar] = 127
-# img_gray[img_gray > limiar] = 64
-# img_gray[img_gray < limiar] = 0
+if num_color == 2:
+    img_gray[img_gray < 127]  = 0
+    img_gray[img_gray >= 127]  = 255
+elif num_color == 4:
+    img_gray[img_gray < 64]  = 0
+    img_gray[(64 < img_gray) & (img_gray < 128)]  = 64
+    img_gray[(128 < img_gray) & (img_gray < 192)]  = 128
+    img_gray[img_gray > 192]  = 192
+else:
+    img_gray[img_gray < 32]  = 0
+    img_gray[(32 < img_gray) & (img_gray < 64)]  = 32
+    img_gray[(64 < img_gray) & (img_gray < 96)]  = 64
+    img_gray[(96 < img_gray) & (img_gray < 128)]  = 128
+    img_gray[(128 < img_gray) & (img_gray < 160)]  = 160
+    img_gray[(160 < img_gray) & (img_gray < 192)]  = 192
+    img_gray[(192 < img_gray) & (img_gray < 224)]  = 224
+    img_gray[img_gray > 224]  = 255
+
 
 new_image = Image.fromarray(img_gray)
 
-plt.axis('off')
-plt.imshow(new_image)
-plt.show()
-st.pyplot()
+# plt.axis('off')
+# plt.imshow(new_image)
+# plt.show()
+# st.pyplot()
 
-# new_image = Image.fromarray(imagem_color_arr)
-
-# st.image(new_image, caption='Sunrise by the mountains', use_column_width=True)
+st.image([new_image.convert("L"), image], caption=['Cinza', 'colorida'], width=480,) 
+# st.image(image, caption='Colorida', width=320,)
