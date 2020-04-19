@@ -1,0 +1,8 @@
+README.rst
+setup.py
+aula_09_04/__init__.py
+aula_09_04.egg-info/PKG-INFO
+aula_09_04.egg-info/SOURCES.txt
+aula_09_04.egg-info/dependency_links.txt
+aula_09_04.egg-info/requires.txt
+aula_09_04.egg-info/top_level.txt
